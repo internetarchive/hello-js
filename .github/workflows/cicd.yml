@@ -22,6 +22,7 @@ jobs:
       image: ghcr.io/internetarchive/dyno:main
     steps:
     - uses: actions/checkout@v2
+    - run: pwd && ls -l
     - run: /app/lint
 
   test:
@@ -32,6 +33,7 @@ jobs:
       image: ghcr.io/internetarchive/dyno:main
     steps:
     - uses: actions/checkout@v2
+    - run: pwd && ls -l
     - run: /app/test/test.sh
 
   deploy:
