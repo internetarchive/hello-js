@@ -14,6 +14,14 @@ jobs:
         with:
           REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  self-test:
+    runs-on: ubuntu-latest
+    needs: [build]
+    container:
+      image: 'docker://ghcr.io/${{ github.repository }}:${{ github.ref_name }}'
+    steps:
+    - run: pwd  &&  fgrep hai index.js
+
   lint:
     runs-on: ubuntu-latest
     needs: [build]
@@ -34,7 +42,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: pwd && ls -l
-    - run: /app/test/test.sh
+#    - run: /app/test/test.sh
 
   deploy:
     runs-on: ubuntu-latest
