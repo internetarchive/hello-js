@@ -51,6 +51,5 @@ jobs:
       - uses: internetarchive/deploy@v1
         with:
           BASE_DOMAIN: 'dev.archive.org'
-          NOMAD_ADDR: 'https://nom.us.archive.org:4646'
           NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
           REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
