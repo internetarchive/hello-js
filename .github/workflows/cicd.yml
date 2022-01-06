@@ -20,7 +20,7 @@ jobs:
     container:
       image: 'docker://ghcr.io/${{ github.repository }}:${{ github.ref_name }}'
     steps:
-    - run: pwd  &&  ls -l  &&  fgrep hai /app/index.js
+    - run: fgrep hai /app/index.js
 
   lint:
     runs-on: ubuntu-latest
@@ -30,7 +30,6 @@ jobs:
       image: ghcr.io/internetarchive/dyno:main
     steps:
     - uses: actions/checkout@v2
-    - run: pwd && ls -l
     - run: /app/lint
 
   test:
