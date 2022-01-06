@@ -1,10 +1,9 @@
 name: CICD
 on: push
-defaults:
-  runs-on: ubuntu-latest
 
 jobs:
   build:
+    runs-on: ubuntu-latest
     permissions:
        contents: read
        packages: write
@@ -16,6 +15,7 @@ jobs:
           REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   lint:
+    runs-on: ubuntu-latest
     needs: [build]
     container:
       # https://github.com/internetarchive/dyno
@@ -25,6 +25,7 @@ jobs:
     - run: /app/lint
 
   test:
+    runs-on: ubuntu-latest
     needs: [build]
     container:
       # https://github.com/internetarchive/dyno
@@ -34,6 +35,7 @@ jobs:
     - run: /app/test/test.sh
 
   deploy:
+    runs-on: ubuntu-latest
     needs: [build, lint, test]
     steps:
       # https://github.com/internetarchive/deploy/blob/main/action.yml
