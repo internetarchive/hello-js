@@ -4,4 +4,4 @@ WORKDIR /app
 COPY . .
 
 USER deno
-CMD deno index.js
+CMD deno run index.js
