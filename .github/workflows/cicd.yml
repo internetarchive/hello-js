@@ -45,9 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build, image-test, lint, test]
     permissions:
-       contents: read
-       packages: write
-       id-token: write
+       packages: read
     steps:
       # https://github.com/internetarchive/deploy/blob/main/action.yml
       - uses: internetarchive/deploy@v1
