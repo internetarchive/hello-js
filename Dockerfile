@@ -4,4 +4,4 @@ WORKDIR /app
 COPY . .
 
 USER deno
-CMD deno run index.js
+CMD deno run --allow-net index.js
