@@ -1,3 +1,3 @@
 import { serve } from 'https://deno.land/std/http/server.ts'
 
-serve(() => new Response('hai'), { port: 5000 })
+serve(() => new Response('hello js'), { port: 5000 })
