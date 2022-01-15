@@ -21,7 +21,7 @@ jobs:
       # test using the just built-and-pushed docker image from the [build] job above
       image: 'docker://ghcr.io/${{ github.repository }}:${{ github.ref_name }}'
     steps:
-    - run: fgrep hai /app/index.js
+    - run: fgrep 'hello js' /app/index.js
 
   lint:
     runs-on: ubuntu-latest
