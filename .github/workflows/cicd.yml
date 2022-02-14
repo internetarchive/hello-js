@@ -51,5 +51,6 @@ jobs:
       - uses: internetarchive/deploy@v1
         with:
           BASE_DOMAIN: 'dev.archive.org'
+          # NOMAD_ADDR: 'uncomment line & set value (for non-archive.org deploys)'
           NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
           REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
