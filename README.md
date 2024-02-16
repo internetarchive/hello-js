@@ -10,3 +10,4 @@ See the main CI/CD config here:
 Example pipeline:
 
 ![Example pipeline](pipeline.jpg)
+
