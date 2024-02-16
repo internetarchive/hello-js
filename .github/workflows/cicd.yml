@@ -1,32 +1,12 @@
-name: CICD
 on: push
-
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    permissions: { contents: read, packages: write, id-token: write }
-    steps:
-      # https://github.com/internetarchive/build/blob/main/action.yml
-      - uses: internetarchive/build@v1
-        with:
-          REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  image-test:
-    runs-on: ubuntu-latest
-    needs: [build]
-    container:
-      # test using the just built-and-pushed docker image from the [build] job above
-      image: 'docker://ghcr.io/${{ github.repository }}:${{ github.ref_name }}'
-    steps:
-    - run: fgrep 'hello js' /app/index.js
-
   lint:
     runs-on: ubuntu-latest
     container:
       # https://github.com/internetarchive/dyno
       image: ghcr.io/internetarchive/dyno:main
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - run: /app/lint
 
   test:
@@ -35,18 +15,20 @@ jobs:
       # https://github.com/internetarchive/dyno
       image: ghcr.io/internetarchive/dyno:main
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - run: /app/test/test.sh
 
-  deploy:
+  cicd:
+    uses: internetarchive/cicd/.github/workflows/cicd.yml@main
+    secrets:
+      NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
+    needs: [lint, test]
+
+  image-test:
     runs-on: ubuntu-latest
-    needs: [build, image-test, lint, test]
-    permissions: { packages: read }
+    needs: [cicd]
+    container:
+      # test using the just built-and-pushed docker image from the [cicd] job above
+      image: 'docker://ghcr.io/${{ github.repository }}:${{ github.ref_name }}'
     steps:
-      # https://github.com/internetarchive/deploy/blob/main/action.yml
-      - uses: internetarchive/deploy@v1
-        with:
-          BASE_DOMAIN: 'dev.archive.org'
-          # NOMAD_ADDR: 'uncomment line & set value (for non-archive.org deploys)'
-          NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
-          REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - run: fgrep 'hello js' /app/index.js
