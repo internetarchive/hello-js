@@ -1,13 +1,7 @@
 on: push
 jobs:
   lint:
-    runs-on: ubuntu-latest
-    container:
-      # https://github.com/internetarchive/dyno
-      image: ghcr.io/internetarchive/dyno:main
-    steps:
-    - uses: actions/checkout@v4
-    - run: /app/lint
+    uses: internetarchive/dyno/.github/workflows/lint.yml@main
 
   test:
     runs-on: ubuntu-latest
